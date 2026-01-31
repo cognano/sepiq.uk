@@ -1,0 +1,14 @@
+.header {
+  position: absolute;
+  top: 1rem;
+  left: 2rem;
+  z-index: 999;
+}
+
+@media (max-width: 1300px) {
+  .header {
+    left: 0;
+    width: 100%;
+    text-align: center;
+  }
+}

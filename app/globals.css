@@ -1,12 +1,18 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --main-background: #f5f5f5;
+  --secondary-color: #903F22;
+  --accent-color: #05668D;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+    --main-background: #171717;
+    --secondary-color: #e07a5f;
+    --accent-color: #6bb8d9;
   }
 }
 
