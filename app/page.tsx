@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import styles from "./page.module.css";
 import Blocks from "./components/blocks";
 import {
@@ -22,7 +23,8 @@ export default async function Home() {
   const last_edited_time = page.last_edited_time;
   const blocks = await FetchBlocks({ block_id, last_edited_time }) as ListBlockChildrenResponseEx;
 
-  const tagline = page.properties.title.title[0].plain_text as string;
+  const titleProperty = page.properties.title as { title: Array<{ plain_text: string }> };
+  const tagline = titleProperty.title[0].plain_text;
 
   return (
     <>
