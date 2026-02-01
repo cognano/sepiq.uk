@@ -16,9 +16,33 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const siteName = 'SEPIQ';
+const title = 'SEPIQ VHH-Epitope-Prediction Challenge 2026';
+const description = 'Call for Participation: SEPIQ VHH-Epitope-Prediction Challenge 2026';
+const url = 'https://sepiq.uk';
+const image = '/ogp-image.png';
+
 export const metadata: Metadata = {
-  title: "SEPIQ VHH-Epitope-Prediction Challenge 2026",
-  description: "Call for Participation: SEPIQ VHH-Epitope-Prediction Challenge 2026",
+  title,
+  description,
+  openGraph: {
+    title,
+    description,
+    url,
+    siteName,
+    images: [{ url: image, width: 1200, height: 630, alt: siteName }],
+    locale: 'en',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title,
+    description,
+    images: [image],
+    creator: '',
+  },
+  viewport: 'width=device-width, initial-scale=1',
+  robots: 'index, follow',
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode; }>) {

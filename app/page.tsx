@@ -10,11 +10,6 @@ import {
 
 const title = "Call for Participation: SEPIQ VHH-Epitope-Prediction Challenge 2026"
 
-export const metadata: Metadata = {
-  title: "SEPIQ VHH-Epitope-Prediction Challenge 2026",
-  description: title,
-};
-
 export default async function Home() {
   const page_id = process.env.NOTION_HOME_PAGE_ID as string;
   const page = await FetchPage({ page_id }) as PageObjectResponseEx;
