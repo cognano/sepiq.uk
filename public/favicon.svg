@@ -2,11 +2,14 @@
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg width="100%" height="100%" viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
   <style>
-    #circle,#cell { fill: white; }
+    #bg { fill: white; }
+    #circle,#cell { fill: black; }
     @media (prefers-color-scheme: dark) {
-      #circle,#cell { fill: black; }
+      #bg { fill: black; }
+      #circle,#cell { fill: white; }
     }
   </style>
+  <rect id="bg" width="512" height="512"/>
   <g transform="matrix(0.70283,0,0,0.70283,9.56589,0.558338)">
     <g transform="matrix(1.01421,0,0,1.01421,-463.814,-1085.94)">
       <path id="circle" d="M803.036,1114.83C976.474,1114.83 1117.28,1255.64 1117.28,1429.08C1117.28,1602.52 976.474,1743.33 803.036,1743.33C629.598,1743.33 488.788,1602.52 488.788,1429.08C488.788,1255.64 629.598,1114.83 803.036,1114.83ZM803.036,1190.38C671.292,1190.38 564.333,1297.34 564.333,1429.08C564.333,1560.82 671.292,1667.78 803.036,1667.78C934.78,1667.78 1041.74,1560.82 1041.74,1429.08C1041.74,1297.34 934.78,1190.38 803.036,1190.38Z"/>
