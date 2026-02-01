@@ -21,11 +21,12 @@ const title = "SEPIQ VHH-Epitope-Prediction Challenge 2026";
 const description =
   "Call for Participation: SEPIQ VHH-Epitope-Prediction Challenge 2026";
 const url = "https://sepiq.uk";
-const image = "/ogp-image.png";
+const image = `${url}/ogp-image.png`;
 
 export const metadata: Metadata = {
   title,
   description,
+  icons: [{ rel: "icon", url: "/favicon.svg" }],
   openGraph: {
     title,
     description,
