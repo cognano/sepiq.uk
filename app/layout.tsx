@@ -2,9 +2,9 @@ import "rotion/style.css";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import styles from "./layout.module.css";
-import Header from "./components/header";
 import Footer from "./components/footer";
+import Header from "./components/header";
+import styles from "./layout.module.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -16,11 +16,12 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const siteName = 'SEPIQ';
-const title = 'SEPIQ VHH-Epitope-Prediction Challenge 2026';
-const description = 'Call for Participation: SEPIQ VHH-Epitope-Prediction Challenge 2026';
-const url = 'https://sepiq.uk';
-const image = '/ogp-image.png';
+const siteName = "SEPIQ";
+const title = "SEPIQ VHH-Epitope-Prediction Challenge 2026";
+const description =
+  "Call for Participation: SEPIQ VHH-Epitope-Prediction Challenge 2026";
+const url = "https://sepiq.uk";
+const image = "/ogp-image.png";
 
 export const metadata: Metadata = {
   title,
@@ -31,24 +32,28 @@ export const metadata: Metadata = {
     url,
     siteName,
     images: [{ url: image, width: 1200, height: 630, alt: siteName }],
-    locale: 'en',
-    type: 'website',
+    locale: "en",
+    type: "website",
   },
   twitter: {
-    card: 'summary_large_image',
+    card: "summary_large_image",
     title,
     description,
     images: [image],
-    creator: '',
+    creator: "",
   },
-  viewport: 'width=device-width, initial-scale=1',
-  robots: 'index, follow',
+  viewport: "width=device-width, initial-scale=1",
+  robots: "index, follow",
 };
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode; }>) {
+export default function RootLayout({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body className={`${styles.page} ${geistSans.variable} ${geistMono.variable}`}>
+      <body
+        className={`${styles.page} ${geistSans.variable} ${geistMono.variable}`}
+      >
         <Header />
         <div className={styles.main}>
           {children}

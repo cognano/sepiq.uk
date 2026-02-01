@@ -6,5 +6,5 @@ export default function Header() {
     <header className={styles.header}>
       <SepiqLogo />
     </header>
-  )
+  );
 }

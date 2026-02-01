@@ -14,4 +14,4 @@ export default function Blocks({ blocks }: Props) {
       <Page blocks={blocks} />
     </div>
   );
-};
+}

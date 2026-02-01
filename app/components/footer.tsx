@@ -6,5 +6,5 @@ export default function Footer() {
     <footer className={styles.footer}>
       <p>&copy; {year} SEPIQ</p>
     </footer>
-  )
+  );
 }
