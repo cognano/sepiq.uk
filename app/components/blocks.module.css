@@ -6,7 +6,7 @@
 
 .blocks :global(img) {
   width: 200%;
-  margin: 3rem -50% .5rem;
+  margin: 3rem -50% 0.5rem;
   border-radius: 30px;
 }
 
@@ -29,7 +29,7 @@
 @media (max-width: 900px) {
   .blocks :global(h2) {
     font-size: 2rem;
-    padding-bottom: .8rem;
+    padding-bottom: 0.8rem;
   }
 
   .blocks :global(img) {
@@ -42,6 +42,6 @@
 @media (max-width: 600px) {
   .blocks :global(h2) {
     font-size: 1.6rem;
-    padding-bottom: .6rem;
+    padding-bottom: 0.6rem;
   }
 }
