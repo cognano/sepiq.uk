@@ -50,7 +50,9 @@
 .coOrganizers {
   background-color: #fff;
   padding: 4rem 0 6rem;
-  box-shadow: 0 8px 10px -6px rgba(0, 0, 0, 0.1), 0 -8px 10px -6px rgba(0, 0, 0, 0.1);
+  box-shadow:
+    0 8px 10px -6px rgba(0, 0, 0, 0.1),
+    0 -8px 10px -6px rgba(0, 0, 0, 0.1);
 }
 
 .coOrganizers ul {

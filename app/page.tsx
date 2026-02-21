@@ -1,3 +1,4 @@
+import Image from "next/image";
 import {
   type DBPageBase,
   FetchBlocks,
@@ -15,36 +16,36 @@ const title =
 type DBPage = DBPageBase & {
   properties: {
     Name: {
-      type: 'title'
-      title: RichTextItemResponse[]
-      id: string
-    }
+      type: "title";
+      title: RichTextItemResponse[];
+      id: string;
+    };
     URL: {
-      type: 'url'
-      url: string
-      id: string
-    }
-  }
+      type: "url";
+      url: string;
+      id: string;
+    };
+  };
 };
 
 type CoOrganizer = {
-  name: string
-  imgSrc: string | null
-  url: string | null
+  name: string;
+  imgSrc: string | null;
+  url: string | null;
 };
 
 type CoOrganizers = CoOrganizer[];
 
 type HomeContents = {
-  tagline: string
-  blocks: ListBlockChildrenResponseEx
+  tagline: string;
+  blocks: ListBlockChildrenResponseEx;
 };
 
 const build = (page: DBPage): CoOrganizer => {
   const props = page.properties;
   const p = page as unknown as PageObjectResponseEx;
   return {
-    name: props.Name.title.map((v) => v.plain_text).join(',') || '',
+    name: props.Name.title.map((v) => v.plain_text).join(",") || "",
     url: props.URL.url || null,
     imgSrc: p.cover?.src || null,
   };
@@ -55,7 +56,7 @@ const coOrganizersQuery = {
   filter: {
     and: [
       {
-        property: 'Active',
+        property: "Active",
         checkbox: {
           equals: true,
         },
@@ -64,17 +65,17 @@ const coOrganizersQuery = {
   },
   sorts: [
     {
-      property: 'Number',
-      direction: 'ascending',
+      property: "Number",
+      direction: "ascending",
     },
   ],
-} as FetchDatabaseArgs
+} as FetchDatabaseArgs;
 
 const GetCoOrganizers = async (): Promise<CoOrganizers> => {
   const { results } = await FetchDatabase(coOrganizersQuery);
   return results.map((v) => {
-    const p = v as DBPage
-    return build(p)
+    const p = v as DBPage;
+    return build(p);
   });
 };
 
@@ -129,9 +130,9 @@ export default async function Home() {
         <h2 className={styles.secondTitle}>Co-Organizers</h2>
         <ul>
           {orgs.map((v: CoOrganizer) => (
-            <li className={styles.coOrganizer}>
+            <li key={v.name} className={styles.coOrganizer}>
               <a href={v.url} target="_blank" rel="noopener noreferrer">
-                <img src={v.imgSrc} alt={v.name} />
+                <Image src={v.imgSrc} alt={v.name} width={300} height={300} />
               </a>
             </li>
           ))}
