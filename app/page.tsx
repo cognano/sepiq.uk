@@ -4,8 +4,10 @@ import {
   FetchBlocks,
   FetchDatabase,
   FetchPage,
+  type FetchDatabaseArgs,
   type ListBlockChildrenResponseEx,
   type PageObjectResponseEx,
+  type RichTextItemResponse,
 } from "rotion";
 import Blocks from "./components/blocks";
 import styles from "./page.module.css";
@@ -30,8 +32,8 @@ type DBPage = DBPageBase & {
 
 type CoOrganizer = {
   name: string;
-  imgSrc: string | null;
-  url: string | null;
+  imgSrc: string;
+  url: string;
 };
 
 type CoOrganizers = CoOrganizer[];
@@ -46,8 +48,8 @@ const build = (page: DBPage): CoOrganizer => {
   const p = page as unknown as PageObjectResponseEx;
   return {
     name: props.Name.title.map((v) => v.plain_text).join(",") || "",
-    url: props.URL.url || null,
-    imgSrc: p.cover?.src || null,
+    url: props.URL.url || "",
+    imgSrc: p.cover?.src || "",
   };
 };
 
