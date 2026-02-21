@@ -56,10 +56,10 @@ export default function RootLayout({
         className={`${styles.page} ${geistSans.variable} ${geistMono.variable}`}
       >
         <Header />
-        <div className={styles.main}>
+        <div>
           {children}
-          <Footer />
         </div>
+        <Footer />
       </body>
     </html>
   );
