@@ -1,7 +1,9 @@
+import Link from "next/link";
 import styles from "./SepiqLogo.module.css";
 
 export default function SepiqLogo() {
   return (
+    <Link href="/">
     <svg
       className={styles.logo}
       width="180"
@@ -38,5 +40,6 @@ export default function SepiqLogo() {
         </g>
       </g>
     </svg>
+    </Link>
   );
 }
