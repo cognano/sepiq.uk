@@ -1,15 +1,14 @@
 import Image from "next/image";
 import {
   type DBPageBase,
-  FetchBlocks,
   FetchDatabase,
   type FetchDatabaseArgs,
-  FetchPage,
   type ListBlockChildrenResponseEx,
   type PageObjectResponseEx,
   type RichTextItemResponse,
 } from "rotion";
 import Blocks from "./components/blocks";
+import { GetContents } from "./lib/contents";
 import styles from "./page.module.css";
 
 const title =
@@ -82,39 +81,18 @@ const GetCoOrganizers = async (): Promise<CoOrganizers> => {
 };
 
 const GetHomeContents = async (): Promise<HomeContents> => {
-  const page_id = process.env.NOTION_HOME_PAGE_ID as string;
-  const page = (await FetchPage({ page_id })) as PageObjectResponseEx;
-  const block_id = page_id;
-  const last_edited_time = page.last_edited_time;
-  const blocks = (await FetchBlocks({
-    block_id,
-    last_edited_time,
-  })) as ListBlockChildrenResponseEx;
-  const titleProperty = page.properties.title as {
-    title: Array<{ plain_text: string }>;
-  };
-  const tagline = titleProperty.title[0].plain_text;
+  const blocks = await GetContents("hero");
+  // tagline is not available from GetContents, using static title
   return {
-    tagline,
+    tagline: title,
     blocks,
   };
-};
-
-const GetAbout = async (): Promise<ListBlockChildrenResponseEx> => {
-  const page_id = process.env.NOTION_ABOUT_PAGE_ID as string;
-  const page = (await FetchPage({ page_id })) as PageObjectResponseEx;
-  const block_id = page_id;
-  const last_edited_time = page.last_edited_time;
-  return (await FetchBlocks({
-    block_id,
-    last_edited_time,
-  })) as ListBlockChildrenResponseEx;
 };
 
 export default async function Home() {
   const [cont, about, orgs] = await Promise.all([
     GetHomeContents(),
-    GetAbout(),
+    GetContents("whatis"),
     GetCoOrganizers(),
   ]);
 
