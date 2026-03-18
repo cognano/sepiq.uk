@@ -2,6 +2,7 @@ import "rotion/style.css";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import FloatingCircles from "./components/FloatingCircles";
 import Footer from "./components/footer";
 import Header from "./components/header";
 import styles from "./layout.module.css";
@@ -55,8 +56,9 @@ export default function RootLayout({
       <body
         className={`${styles.page} ${geistSans.variable} ${geistMono.variable}`}
       >
+        <FloatingCircles />
         <Header />
-        <div>{children}</div>
+        <div style={{ position: "relative", zIndex: 1 }}>{children}</div>
         <Footer />
       </body>
     </html>

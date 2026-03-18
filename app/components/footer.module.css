@@ -4,11 +4,14 @@
   justify-content: center;
   width: 100%;
   font-size: 0.85rem;
+  position: relative;
+  z-index: 1;
 }
 
 .footerInner {
   width: 100%;
   max-width: 800px;
   background-color: var(--main-background);
+  opacity: 0.8;
   padding: 2rem 60px;
 }

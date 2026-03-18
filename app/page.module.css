@@ -30,6 +30,7 @@
   align-items: flex-start;
   justify-content: space-between;
   background-color: var(--main-background);
+  opacity: 0.8;
   padding: 160px 60px 300px;
   position: relative;
 }
