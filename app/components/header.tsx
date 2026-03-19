@@ -7,7 +7,7 @@ export default function Header() {
     <header className={styles.header}>
       <SepiqLogo />
       <nav className={styles.nav}>
-        <Link href="/" className={styles.navLink}>
+        <Link href="/" className={`${styles.navLink} ${styles.homeLink}`}>
           Home
         </Link>
         <Link href="/about" className={styles.navLink}>
