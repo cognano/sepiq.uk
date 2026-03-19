@@ -88,6 +88,45 @@
   display: block;
 }
 
+.buttonGroup {
+  display: flex;
+  gap: 1rem;
+  margin: 2rem auto 0;
+}
+
+.aboutButton {
+  display: inline-block;
+  padding: 0.8rem 2.5rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #fff;
+  background-color: var(--secondary-color);
+  border-radius: 30px;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.aboutButton:hover {
+  opacity: 0.8;
+}
+
+.brandButton {
+  display: inline-block;
+  padding: 0.8rem 2.5rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--secondary-color);
+  background-color: transparent;
+  border: 1px solid var(--secondary-color);
+  border-radius: 30px;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.brandButton:hover {
+  opacity: 0.8;
+}
+
 @media (max-width: 900px) {
   .tagline {
     font-size: 3rem;

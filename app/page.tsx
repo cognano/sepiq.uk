@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Image from "next/image";
 import {
   type DBPageBase,
@@ -122,6 +123,14 @@ export default async function Home() {
       <div className={styles.main}>
         <div className={styles.mainInner}>
           <Blocks blocks={about} />
+          <div className={styles.buttonGroup}>
+            <Link href="/about" className={styles.aboutButton}>
+              Learn More
+            </Link>
+            <Link href="/brand" className={styles.brandButton}>
+              Brand
+            </Link>
+          </div>
         </div>
       </div>
     </>
