@@ -3,12 +3,12 @@ import { GetContents } from "../lib/contents";
 import styles from "./page.module.css";
 
 export default async function Brand() {
-  const brand = await GetContents("brand");
+  const { blocks } = await GetContents("brand");
 
   return (
     <div className={styles.main}>
       <div className={styles.mainInner}>
-        <Blocks blocks={brand} />
+        <Blocks blocks={blocks} />
       </div>
     </div>
   );

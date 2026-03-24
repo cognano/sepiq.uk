@@ -28,9 +28,12 @@ const contentsQuery = {
   database_id: process.env.NOTION_CONTENTS_DB_ID as string,
 } as FetchDatabaseArgs;
 
-export const GetContents = async (
-  slug: string,
-): Promise<ListBlockChildrenResponseEx> => {
+export type Contents = {
+  title: string;
+  blocks: ListBlockChildrenResponseEx;
+};
+
+export const GetContents = async (slug: string): Promise<Contents> => {
   const { results } = await FetchDatabase(contentsQuery);
   const page = results.find((v) => {
     const p = v as unknown as ContentsDBPage;
@@ -41,11 +44,15 @@ export const GetContents = async (
     throw new Error(`Content not found for slug: ${slug}`);
   }
 
+  const title =
+    page.properties.Name.title.map((v) => v.plain_text).join("") || "";
   const page_id = page.id;
   const fetched = (await FetchPage({ page_id })) as PageObjectResponseEx;
   const last_edited_time = fetched.last_edited_time;
-  return (await FetchBlocks({
+  const blocks = (await FetchBlocks({
     block_id: page_id,
     last_edited_time,
   })) as ListBlockChildrenResponseEx;
+
+  return { title, blocks };
 };

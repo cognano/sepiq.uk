@@ -12,9 +12,6 @@ import Blocks from "./components/blocks";
 import { GetContents } from "./lib/contents";
 import styles from "./page.module.css";
 
-const title =
-  "Call for Participation: SEPIQ VHH-Epitope-Prediction Challenge 2026";
-
 type DBPage = DBPageBase & {
   properties: {
     Name: {
@@ -39,7 +36,7 @@ type CoOrganizer = {
 type CoOrganizers = CoOrganizer[];
 
 type HomeContents = {
-  tagline: string;
+  title: string;
   blocks: ListBlockChildrenResponseEx;
 };
 
@@ -82,18 +79,14 @@ const GetCoOrganizers = async (): Promise<CoOrganizers> => {
 };
 
 const GetHomeContents = async (): Promise<HomeContents> => {
-  const blocks = await GetContents("hero");
-  // tagline is not available from GetContents, using static title
-  return {
-    tagline: title,
-    blocks,
-  };
+  const { title, blocks } = await GetContents("hero");
+  return { title, blocks };
 };
 
 export default async function Home() {
   const [cont, about, orgs] = await Promise.all([
     GetHomeContents(),
-    GetContents("whatis"),
+    GetContents("whatis").then((c) => c.blocks),
     GetCoOrganizers(),
   ]);
 
@@ -101,8 +94,10 @@ export default async function Home() {
     <>
       <div className={styles.main}>
         <div className={styles.mainInner}>
-          <div className={styles.title}>{title}</div>
-          <h1 className={styles.tagline}> {cont.tagline} </h1>
+          <div className={styles.title}>
+            Call for Participation: SEPIQ VHH-Epitope-Prediction Challenge 2026
+          </div>
+          <h1 className={styles.tagline}> {cont.title} </h1>
           <Blocks blocks={cont.blocks} />
         </div>
       </div>
