@@ -48,12 +48,16 @@
   justify-self: center;
 }
 
-.coOrganizers {
+.partnersSection {
   background-color: #fff;
   padding: 4rem 0 6rem;
   box-shadow:
     0 8px 10px -6px rgba(0, 0, 0, 0.1),
     0 -8px 10px -6px rgba(0, 0, 0, 0.1);
+}
+
+.coOrganizers {
+  padding-bottom: 4rem;
 }
 
 .coOrganizers ul {
@@ -86,6 +90,87 @@
   max-width: 300px;
   max-height: 300px;
   display: block;
+}
+
+.sponsorRank {
+  margin-bottom: 3rem;
+}
+
+.sponsorRank:last-child {
+  margin-bottom: 0;
+}
+
+.rankTitle {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: var(--secondary-color);
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.sponsorRank ul {
+  list-style: none;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+}
+
+.sponsorRank li a {
+  display: grid;
+  place-items: center;
+  text-decoration: none;
+}
+
+.sponsorRank img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.rankGold ul {
+  gap: 2rem;
+}
+
+.rankGold img {
+  max-width: 300px;
+  max-height: 300px;
+}
+
+.rankSilver ul {
+  gap: 1.5rem;
+}
+
+.rankSilver img {
+  max-width: 220px;
+  max-height: 220px;
+}
+
+.rankBronze ul {
+  gap: 1rem;
+}
+
+.rankBronze img {
+  max-width: 160px;
+  max-height: 160px;
+}
+
+.rankInkind ul {
+  gap: 0.8rem;
+}
+
+.rankInkind img {
+  max-width: 120px;
+  max-height: 120px;
+}
+
+.rankEmpty {
+  text-align: center;
+  color: #999;
+  font-size: 0.9rem;
+  margin: 0;
 }
 
 .buttonGroup {
@@ -140,6 +225,22 @@
     max-width: 160px;
     max-height: 160px;
   }
+  .rankGold img {
+    max-width: 200px;
+    max-height: 200px;
+  }
+  .rankSilver img {
+    max-width: 150px;
+    max-height: 150px;
+  }
+  .rankBronze img {
+    max-width: 110px;
+    max-height: 110px;
+  }
+  .rankInkind img {
+    max-width: 80px;
+    max-height: 80px;
+  }
 }
 
 @media (max-width: 600px) {
@@ -154,5 +255,9 @@
     grid-template-columns: repeat(1, 1fr);
     grid-template-rows: repeat(5, 1fr);
     row-gap: 2rem;
+  }
+  .sponsorRank ul {
+    flex-direction: column;
+    align-items: center;
   }
 }
