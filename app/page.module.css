@@ -43,9 +43,8 @@
   border: 1px solid var(--accent-color);
   color: var(--accent-color);
   text-align: center;
+  width: fit-content;
   margin: 0 auto 3rem;
-  display: flex;
-  justify-self: center;
 }
 
 .partnersSection {
