@@ -21,6 +21,11 @@ type ContentsDBPage = DBPageBase & {
       select: { name: string } | null;
       id: string;
     };
+    Lang: {
+      type: "select";
+      select: { name: string } | null;
+      id: string;
+    };
   };
 };
 
@@ -37,7 +42,7 @@ export const GetContents = async (slug: string): Promise<Contents> => {
   const { results } = await FetchDatabase(contentsQuery);
   const page = results.find((v) => {
     const p = v as unknown as ContentsDBPage;
-    return p.properties.Slug?.select?.name === slug;
+    return p.properties.Slug?.select?.name === slug && p.properties.Lang?.select?.name === 'English';
   }) as unknown as ContentsDBPage | undefined;
 
   if (!page) {
