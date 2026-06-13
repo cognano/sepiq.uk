@@ -55,8 +55,32 @@
     0 -8px 10px -6px rgba(0, 0, 0, 0.1);
 }
 
+.contentBlock {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 3rem 60px 6rem;
+  box-sizing: border-box;
+  background-color: var(--main-background);
+  opacity: 0.8;
+}
+
+.timelineSection {
+  padding-bottom: 2rem;
+  box-shadow: 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+}
+
+.sponsorsSection {
+  padding-top: 4rem;
+  box-shadow: 0 -8px 10px -6px rgba(0, 0, 0, 0.1);
+}
+
 .coOrganizers {
+  padding-top: 4rem;
   padding-bottom: 4rem;
+  box-shadow:
+    0 8px 10px -6px rgba(0, 0, 0, 0.1),
+    0 -8px 10px -6px rgba(0, 0, 0, 0.1);
 }
 
 .coOrganizers ul {
