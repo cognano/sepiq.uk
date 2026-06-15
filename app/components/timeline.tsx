@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import type { Timeline as TimelineData } from "../lib/timeline";
 import styles from "./timeline.module.css";
 
@@ -7,6 +8,7 @@ type Props = {
 
 const CONNECTOR_BASE = 30; // px: line length from the dot to the first label
 const ROW = 64; // px: vertical gap between stacked labels on the same side
+const ALT_OFFSET = 104; // px: extra line length for every other label on a side
 const LABEL_SPACE = 80; // px: room reserved for the label box itself
 
 type Domain = { start: number; end: number };
@@ -92,20 +94,39 @@ export default function Timeline({ events }: Props) {
   const lefts = events.map((e) => pct(new Date(e.date).getTime(), domain));
   const ticks = buildTicks(domain);
   const levels = stackLevels(lefts);
-  const placements = levels.map(placement);
 
-  const extent = (above: boolean) =>
-    placements
-      .filter((p) => p.above === above)
-      .reduce((max, p) => Math.max(max, CONNECTOR_BASE + p.depth * ROW), 0);
+  // Alternate the connector length for consecutive labels on the same side
+  // (a zigzag) so neighbouring labels sit at different heights and their text
+  // does not overlap. The alternating offset is applied on mobile only (via
+  // CSS), so each row carries its base length and the extra offset separately.
+  let aboveSeen = 0;
+  let belowSeen = 0;
+  const rows = levels.map((level) => {
+    const { above, depth } = placement(level);
+    const tier = above ? aboveSeen++ % 2 : belowSeen++ % 2;
+    return {
+      above,
+      base: CONNECTOR_BASE + depth * ROW,
+      alt: tier * ALT_OFFSET,
+    };
+  });
 
-  const aboveSpace = Math.max(48, extent(true) + LABEL_SPACE);
-  const belowSpace = extent(false) + LABEL_SPACE;
+  const extent = (above: boolean, withAlt: boolean) =>
+    rows
+      .filter((r) => r.above === above)
+      .reduce((max, r) => Math.max(max, r.base + (withAlt ? r.alt : 0)), 0);
+
+  const spaceVars = {
+    "--above-space": `${Math.max(48, extent(true, false) + LABEL_SPACE)}px`,
+    "--above-space-m": `${Math.max(48, extent(true, true) + LABEL_SPACE)}px`,
+    "--below-space": `${extent(false, false) + LABEL_SPACE}px`,
+    "--below-space-m": `${extent(false, true) + LABEL_SPACE}px`,
+  } as CSSProperties;
 
   return (
-    <div className={styles.timeline} style={{ paddingTop: `${aboveSpace}px` }}>
-      <div className={styles.line} style={{ top: `${aboveSpace}px` }} />
-      <div className={styles.track} style={{ minHeight: `${belowSpace}px` }}>
+    <div className={styles.timeline} style={spaceVars}>
+      <div className={styles.line} />
+      <div className={styles.track}>
         {ticks.map((tick) => (
           <div
             key={tick.label}
@@ -117,7 +138,7 @@ export default function Timeline({ events }: Props) {
           </div>
         ))}
         {events.map((event, i) => {
-          const { above, depth } = placements[i];
+          const { above, base, alt } = rows[i];
           return (
             <div
               key={`${i}-${event.name}`}
@@ -127,7 +148,12 @@ export default function Timeline({ events }: Props) {
               <span className={styles.dot} />
               <span
                 className={styles.connector}
-                style={{ height: `${CONNECTOR_BASE + depth * ROW}px` }}
+                style={
+                  {
+                    "--base": `${base}px`,
+                    "--alt": `${alt}px`,
+                  } as CSSProperties
+                }
               />
               <div
                 className={`${styles.label} ${above ? styles.labelAbove : ""}`}

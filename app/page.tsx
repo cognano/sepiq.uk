@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import type { ListBlockChildrenResponseEx } from "rotion";
 import Blocks from "./components/blocks";
 import Timeline from "./components/timeline";
 import { type CoOrganizer, GetCoOrganizers } from "./lib/co-organizers";
@@ -9,20 +8,11 @@ import { GetSponsors, type Sponsor, sponsorRanks } from "./lib/sponsors";
 import { GetTimeline } from "./lib/timeline";
 import styles from "./page.module.css";
 
-type HomeContents = {
-  title: string;
-  blocks: ListBlockChildrenResponseEx;
-};
-
-const GetHomeContents = async (): Promise<HomeContents> => {
-  const { title, blocks } = await GetContents("hero");
-  return { title, blocks };
-};
-
 export default async function Home() {
-  const [cont, about, timeline, faq, orgs, celebrate, sponsors] =
+  const [hero, overview, about, timeline, faq, orgs, celebrate, sponsors] =
     await Promise.all([
-      GetHomeContents(),
+      GetContents("hero"),
+      GetContents("overview"),
       GetContents("whatis").then((c) => c.blocks),
       GetTimeline(),
       GetContents("faq").then((c) => c.blocks),
@@ -35,11 +25,24 @@ export default async function Home() {
     <>
       <div className={styles.main}>
         <div className={styles.mainInner}>
-          <div className={styles.title}>
-            Call for Participation: SEPIQ VHH-Epitope-Prediction Challenge 2026
+          <div className={styles.title}>{overview.title}</div>
+          <h1 className={styles.tagline}> {hero.title} </h1>
+          <Blocks blocks={hero.blocks} />
+          <Link
+            href="https://huggingface.co/spaces/sepiq-2026/SEPIQ-2026-Challenge"
+            className={styles.challengeButton}
+          >
+            Join the Challenge
+          </Link>
+          <div className={styles.overviewBlock}>
+            <Blocks blocks={overview.blocks} />
           </div>
-          <h1 className={styles.tagline}> {cont.title} </h1>
-          <Blocks blocks={cont.blocks} />
+          <Link
+            href="https://huggingface.co/spaces/sepiq-2026/SEPIQ-2026-Challenge"
+            className={styles.challengeButton}
+          >
+            Join the Challenge
+          </Link>
         </div>
       </div>
 
@@ -68,6 +71,14 @@ export default async function Home() {
 
         <div className={styles.contentBlock}>
           <Blocks blocks={celebrate} />
+          <div className={styles.challengeCta}>
+            <Link
+              href="https://huggingface.co/spaces/sepiq-2026/SEPIQ-2026-Challenge"
+              className={styles.challengeButton}
+            >
+              Join the Challenge
+            </Link>
+          </div>
         </div>
 
         <div className={styles.sponsorsSection}>

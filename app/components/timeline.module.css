@@ -3,12 +3,17 @@
   width: 100%;
   margin: 0 0 4rem;
   padding: 3rem 0 2rem;
+  padding-top: var(--above-space);
   box-sizing: border-box;
+  /* Clip horizontal overflow (e.g. wide date labels at the edges) to the
+     viewport width so the page never scrolls sideways. `clip` keeps the
+     vertical axis visible, unlike `hidden`. */
+  overflow-x: clip;
 }
 
 .line {
   position: absolute;
-  top: 3rem;
+  top: var(--above-space);
   left: 0;
   width: 100%;
   height: 2px;
@@ -18,7 +23,7 @@
 .track {
   position: relative;
   max-width: 800px;
-  min-height: 9rem;
+  min-height: var(--below-space);
   margin: 0 auto;
 }
 
@@ -78,6 +83,7 @@
 
 .connector {
   width: 1px;
+  height: var(--base);
   background-color: var(--accent-color);
   opacity: 0.4;
 }
@@ -110,15 +116,23 @@
 @media (max-width: 900px) {
   .timeline {
     padding: 2rem 0 1.5rem;
+    padding-top: var(--above-space-m);
   }
   .line {
-    top: 2rem;
+    top: var(--above-space-m);
   }
   .track {
-    max-width: 100%;
-    /* keep edge points (centered via translateX(-50%)) within the window */
-    padding: 0 65px;
-    box-sizing: border-box;
+    min-height: var(--below-space-m);
+  }
+  .connector {
+    height: calc(var(--base) + var(--alt));
+  }
+  .track {
+    /* Points are absolutely positioned against the track's box, so use a
+       horizontal margin (not padding) to narrow that box. This leaves room
+       for the edge points' translateX(-50%) overflow (half of .point width)
+       and prevents horizontal scrolling. */
+    margin: 0 70px;
   }
   .point {
     width: 120px;
@@ -128,5 +142,8 @@
   }
   .date {
     font-size: 0.9rem;
+    /* allow long ranges to wrap so the label never exceeds .point width
+       and pushes past the viewport edge */
+    white-space: normal;
   }
 }
