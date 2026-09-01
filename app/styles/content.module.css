@@ -34,12 +34,6 @@
   margin: 0 auto 3rem;
 }
 
-@media (max-width: 600px) {
-  .mainInner {
-    padding: 120px 30px;
-  }
-}
-
 /* Closing call to action, mirroring the buttons on the front page. */
 .ctaRow {
   align-self: center;
@@ -93,4 +87,25 @@
 .secondaryButton:hover {
   background-color: color-mix(in srgb, var(--accent-color) 10%, transparent);
   border-color: var(--accent-color);
+}
+
+@media (max-width: 600px) {
+  .mainInner {
+    padding: 120px 30px;
+  }
+
+  /* Stacked buttons look ragged at different widths: make them match. */
+  .ctaRow {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
+
+  .ctaRow .primaryButton,
+  .ctaRow .secondaryButton {
+    width: 100%;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    text-align: center;
+  }
 }
