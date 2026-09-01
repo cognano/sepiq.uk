@@ -14,6 +14,14 @@
   overflow-x: auto;
 }
 
+/* A bare URL has no break opportunities, so on a phone it juts out of the
+   column and drags the page sideways. Let long words wrap instead. */
+.blocks :global(.rotion-text),
+.blocks :global(.rotion-listblocks),
+.blocks :global(a) {
+  overflow-wrap: break-word;
+}
+
 /* rotion sets 1.7rem on block equations, which towers over the body text. */
 .blocks :global(.rotion-equation-html) {
   font-size: 1.35rem;
