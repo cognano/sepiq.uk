@@ -217,7 +217,8 @@
   background-color: var(--accent-color);
   border-radius: 40px;
   text-decoration: none;
-  box-shadow: 0 10px 24px -6px color-mix(in srgb, var(--accent-color) 55%, transparent);
+  box-shadow: 0 10px 24px -6px
+    color-mix(in srgb, var(--accent-color) 55%, transparent);
   transition:
     transform 0.2s ease,
     box-shadow 0.2s ease;
@@ -225,7 +226,8 @@
 
 .challengeButton:hover {
   transform: translateY(-3px);
-  box-shadow: 0 16px 34px -6px color-mix(in srgb, var(--accent-color) 70%, transparent);
+  box-shadow: 0 16px 34px -6px
+    color-mix(in srgb, var(--accent-color) 70%, transparent);
 }
 
 .buttonGroup {
