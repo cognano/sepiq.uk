@@ -50,3 +50,58 @@
     font-size: 1.8rem;
   }
 }
+
+/* Closing call to action, mirroring the buttons on the front page. */
+.ctaRow {
+  align-self: center;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem 1.5rem;
+  margin-top: 4rem;
+}
+
+.primaryButton {
+  display: inline-block;
+  padding: 1.1rem 3.5rem;
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #fff;
+  background-color: var(--accent-color);
+  border-radius: 40px;
+  text-decoration: none;
+  box-shadow: 0 10px 24px -6px
+    color-mix(in srgb, var(--accent-color) 55%, transparent);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.primaryButton:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 34px -6px
+    color-mix(in srgb, var(--accent-color) 70%, transparent);
+}
+
+.secondaryButton {
+  display: inline-block;
+  padding: 1.05rem 2.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--accent-color);
+  background-color: transparent;
+  border: 1px solid color-mix(in srgb, var(--accent-color) 45%, transparent);
+  border-radius: 40px;
+  text-decoration: none;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.secondaryButton:hover {
+  background-color: color-mix(in srgb, var(--accent-color) 10%, transparent);
+  border-color: var(--accent-color);
+}

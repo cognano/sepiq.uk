@@ -201,10 +201,6 @@
   margin-top: 10rem;
 }
 
-.challengeCta {
-  text-align: center;
-}
-
 .challengeButton {
   align-self: center;
   margin-top: 2.5rem;
@@ -222,6 +218,43 @@
   transition:
     transform 0.2s ease,
     box-shadow 0.2s ease;
+}
+
+/* The primary CTA paired with a quieter secondary link. */
+.ctaRow {
+  align-self: center;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem 1.5rem;
+  margin-top: 2.5rem;
+}
+
+.ctaRow .challengeButton {
+  align-self: auto;
+  margin-top: 0;
+}
+
+.detailButton {
+  display: inline-block;
+  padding: 1.05rem 2.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--accent-color);
+  background-color: transparent;
+  border: 1px solid color-mix(in srgb, var(--accent-color) 45%, transparent);
+  border-radius: 40px;
+  text-decoration: none;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.detailButton:hover {
+  background-color: color-mix(in srgb, var(--accent-color) 10%, transparent);
+  border-color: var(--accent-color);
 }
 
 .challengeButton:hover {

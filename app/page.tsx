@@ -28,21 +28,31 @@ export default async function Home() {
           <div className={styles.title}>{overview.title}</div>
           <h1 className={styles.tagline}> {hero.title} </h1>
           <Blocks blocks={hero.blocks} />
-          <Link
-            href="https://huggingface.co/spaces/sepiq-2026/SEPIQ-2026-Challenge"
-            className={styles.challengeButton}
-          >
-            Join the Challenge
-          </Link>
+          <div className={styles.ctaRow}>
+            <Link
+              href="https://huggingface.co/spaces/sepiq-2026/SEPIQ-2026-Challenge"
+              className={styles.challengeButton}
+            >
+              Join the Challenge
+            </Link>
+            <Link href="/detail" className={styles.detailButton}>
+              See the Details
+            </Link>
+          </div>
           <div className={styles.overviewBlock}>
             <Blocks blocks={overview.blocks} />
           </div>
-          <Link
-            href="https://huggingface.co/spaces/sepiq-2026/SEPIQ-2026-Challenge"
-            className={styles.challengeButton}
-          >
-            Join the Challenge
-          </Link>
+          <div className={styles.ctaRow}>
+            <Link
+              href="https://huggingface.co/spaces/sepiq-2026/SEPIQ-2026-Challenge"
+              className={styles.challengeButton}
+            >
+              Join the Challenge
+            </Link>
+            <Link href="/detail" className={styles.detailButton}>
+              See the Details
+            </Link>
+          </div>
         </div>
       </div>
 
@@ -71,12 +81,15 @@ export default async function Home() {
 
         <div className={styles.contentBlock}>
           <Blocks blocks={celebrate} />
-          <div className={styles.challengeCta}>
+          <div className={styles.ctaRow}>
             <Link
               href="https://huggingface.co/spaces/sepiq-2026/SEPIQ-2026-Challenge"
               className={styles.challengeButton}
             >
               Join the Challenge
+            </Link>
+            <Link href="/detail" className={styles.detailButton}>
+              See the Details
             </Link>
           </div>
         </div>
