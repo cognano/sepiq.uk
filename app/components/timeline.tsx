@@ -6,167 +6,160 @@ type Props = {
   events: TimelineData;
 };
 
-const CONNECTOR_BASE = 30; // px: line length from the dot to the first label
-const ROW = 64; // px: vertical gap between stacked labels on the same side
-const ALT_OFFSET = 104; // px: extra line length for every other label on a side
-const LABEL_SPACE = 80; // px: room reserved for the label box itself
-
 type Domain = { start: number; end: number };
 
-type Tick = { left: number; label: string };
+type Tick = { left: number; label: string; year: number | null };
 
-const formatDate = (date: string): string =>
-  new Date(date).toLocaleDateString("en-GB", {
+const DAY = 24 * 60 * 60 * 1000;
+
+const formatDate = (time: number): string =>
+  new Date(time).toLocaleDateString("en-GB", {
     day: "numeric",
     month: "short",
   });
 
-const formatRange = (date: string, endDate: string): string =>
-  endDate ? `${formatDate(date)} – ${formatDate(endDate)}` : formatDate(date);
+const formatRange = (start: number, end: number | null): string =>
+  end === null
+    ? formatDate(start)
+    : `${formatDate(start)} – ${formatDate(end)}`;
 
 const monthStart = (d: Date): Date =>
   new Date(d.getFullYear(), d.getMonth(), 1);
 const nextMonthStart = (d: Date): Date =>
   new Date(d.getFullYear(), d.getMonth() + 1, 1);
 
+// A date-only string ("2026-09-01") parses as UTC midnight; render it in the
+// local timezone so a day is never lost west of Greenwich.
+const parseDate = (date: string): number => {
+  const [y, m, d] = date.split("-").map(Number);
+  return new Date(y, (m ?? 1) - 1, d ?? 1).getTime();
+};
+
 // Domain spans from the start of the first event's month to the start of the
-// month after the last event, so month ticks bracket every event.
-const buildDomain = (events: TimelineData): Domain => {
-  const times = events.map((e) => new Date(e.date).getTime());
-  const start = monthStart(new Date(Math.min(...times))).getTime();
-  const end = nextMonthStart(new Date(Math.max(...times))).getTime();
+// month after the last one, so month ticks bracket every bar.
+const buildDomain = (rows: Row[]): Domain => {
+  const start = monthStart(
+    new Date(Math.min(...rows.map((r) => r.start))),
+  ).getTime();
+  const end = nextMonthStart(
+    new Date(Math.max(...rows.map((r) => r.end ?? r.start))),
+  ).getTime();
   return { start, end };
 };
 
 const pct = (time: number, { start, end }: Domain): number =>
-  end === start ? 50 : ((time - start) / (end - start)) * 100;
+  end === start ? 0 : ((time - start) / (end - start)) * 100;
 
-// One tick per month start across the whole domain. The year is shown on
+// One tick per month start across the whole domain. The year is spelled out on
 // the first tick and every January to keep the scale readable but compact.
 const buildTicks = (domain: Domain): Tick[] => {
   const ticks: Tick[] = [];
   let d = new Date(domain.start);
   let i = 0;
   while (d.getTime() <= domain.end) {
-    const label =
-      i === 0 || d.getMonth() === 0
-        ? d.toLocaleDateString("en-GB", { month: "short", year: "numeric" })
-        : d.toLocaleDateString("en-GB", { month: "short" });
-    ticks.push({ left: pct(d.getTime(), domain), label });
+    ticks.push({
+      left: pct(d.getTime(), domain),
+      label: d.toLocaleDateString("en-GB", { month: "short" }),
+      year: i === 0 || d.getMonth() === 0 ? d.getFullYear() : null,
+    });
     d = nextMonthStart(d);
     i += 1;
   }
   return ticks;
 };
 
-// Stagger labels when points are horizontally close so that names do not
-// overlap. Points are sorted ascending by date, so duplicates are adjacent.
-const stackLevels = (lefts: number[]): number[] => {
-  const threshold = 8; // percent: labels closer than this share a cluster
-  const levels: number[] = [];
-  let clusterStart = Number.NEGATIVE_INFINITY;
-  let level = 0;
-  for (const left of lefts) {
-    if (left - clusterStart < threshold) {
-      level += 1;
-    } else {
-      level = 0;
-      clusterStart = left;
-    }
-    levels.push(level);
-  }
-  return levels;
+type Row = {
+  name: string;
+  start: number;
+  end: number | null;
 };
-
-// Even levels go below the line, odd levels above; `depth` is the stacking
-// distance from the line on that side. Duplicates thus split to both sides.
-const placement = (level: number) => ({
-  above: level % 2 === 1,
-  depth: Math.floor(level / 2),
-});
 
 export default function Timeline({ events }: Props) {
   if (events.length === 0) {
     return null;
   }
 
-  const domain = buildDomain(events);
-  const lefts = events.map((e) => pct(new Date(e.date).getTime(), domain));
-  const ticks = buildTicks(domain);
-  const levels = stackLevels(lefts);
-
-  // Alternate the connector length for consecutive labels on the same side
-  // (a zigzag) so neighbouring labels sit at different heights and their text
-  // does not overlap. The alternating offset is applied on mobile only (via
-  // CSS), so each row carries its base length and the extra offset separately.
-  let aboveSeen = 0;
-  let belowSeen = 0;
-  const rows = levels.map((level) => {
-    const { above, depth } = placement(level);
-    const tier = above ? aboveSeen++ % 2 : belowSeen++ % 2;
+  const rows: Row[] = events.map((e) => {
+    const start = parseDate(e.date);
+    const end = e.endDate ? parseDate(e.endDate) : null;
     return {
-      above,
-      base: CONNECTOR_BASE + depth * ROW,
-      alt: tier * ALT_OFFSET,
+      name: e.name,
+      start,
+      end: end !== null && end > start ? end : null,
     };
   });
 
-  const extent = (above: boolean, withAlt: boolean) =>
-    rows
-      .filter((r) => r.above === above)
-      .reduce((max, r) => Math.max(max, r.base + (withAlt ? r.alt : 0)), 0);
+  const domain = buildDomain(rows);
+  const ticks = buildTicks(domain);
 
-  const spaceVars = {
-    "--above-space": `${Math.max(48, extent(true, false) + LABEL_SPACE)}px`,
-    "--above-space-m": `${Math.max(48, extent(true, true) + LABEL_SPACE)}px`,
-    "--below-space": `${extent(false, false) + LABEL_SPACE}px`,
-    "--below-space-m": `${extent(false, true) + LABEL_SPACE}px`,
-  } as CSSProperties;
+  // Today's marker, only when the challenge period actually contains it.
+  const now = Date.now();
+  const today =
+    now >= domain.start && now <= domain.end ? pct(now, domain) : null;
 
   return (
-    <div className={styles.timeline} style={spaceVars}>
-      <div className={styles.line} />
-      <div className={styles.track}>
+    <div className={styles.timeline}>
+      <div className={styles.axis}>
         {ticks.map((tick) => (
-          <div
-            key={tick.label}
-            className={styles.tick}
+          <span
+            key={tick.left}
+            className={styles.month}
             style={{ left: `${tick.left}%` }}
           >
-            <span className={styles.tickMark} />
-            <span className={styles.tickLabel}>{tick.label}</span>
-          </div>
+            {tick.label}
+            {tick.year !== null ? (
+              <span className={styles.year}>{tick.year}</span>
+            ) : null}
+          </span>
         ))}
-        {events.map((event, i) => {
-          const { above, base, alt } = rows[i];
+      </div>
+
+      <ol className={styles.rows}>
+        {rows.map((row, i) => {
+          // An open-ended event is a milestone: it gets a marker, not a bar.
+          const left = pct(row.start, domain);
+          const width =
+            row.end === null ? 0 : pct(row.end + DAY, domain) - left;
+          const barStyle = {
+            left: `${left}%`,
+            width: `${width}%`,
+          } as CSSProperties;
+
           return (
-            <div
-              key={`${i}-${event.name}`}
-              className={`${styles.point} ${above ? styles.pointAbove : styles.pointBelow}`}
-              style={{ left: `${lefts[i]}%` }}
-            >
-              <span className={styles.dot} />
-              <span
-                className={styles.connector}
-                style={
-                  {
-                    "--base": `${base}px`,
-                    "--alt": `${alt}px`,
-                  } as CSSProperties
-                }
-              />
-              <div
-                className={`${styles.label} ${above ? styles.labelAbove : ""}`}
-              >
+            <li key={`${i}-${row.name}`} className={styles.row}>
+              <div className={styles.meta}>
                 <span className={styles.date}>
-                  {formatRange(event.date, event.endDate)}
+                  {formatRange(row.start, row.end)}
                 </span>
-                <span className={styles.name}>{event.name}</span>
+                <span className={styles.name}>{row.name}</span>
               </div>
-            </div>
+              <div className={styles.track}>
+                {ticks.map((tick) => (
+                  <span
+                    key={tick.left}
+                    className={styles.grid}
+                    style={{ left: `${tick.left}%` }}
+                  />
+                ))}
+                {today !== null ? (
+                  <span
+                    className={styles.today}
+                    style={{ left: `${today}%` }}
+                  />
+                ) : null}
+                {row.end === null ? (
+                  <span
+                    className={styles.milestone}
+                    style={{ left: `${left}%` }}
+                  />
+                ) : (
+                  <span className={styles.bar} style={barStyle} />
+                )}
+              </div>
+            </li>
           );
         })}
-      </div>
+      </ol>
     </div>
   );
 }
