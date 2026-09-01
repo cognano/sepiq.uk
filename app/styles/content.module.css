@@ -22,32 +22,21 @@
   position: relative;
 }
 
-/* Page heading, sitting above the Notion content. */
+/* Page heading: the pill from the front page, in the brand brown. */
 .title {
-  width: 100%;
-  margin-bottom: 2.5rem;
-  padding-bottom: 1.5rem;
-  border-bottom: 2px solid var(--accent-color);
-  font-size: 3rem;
-  line-height: 1.2;
+  font-size: 0.8rem;
+  font-weight: bold;
+  padding: 0.7rem 1.2rem;
+  border-radius: 30px;
+  border: 1px solid var(--secondary-color);
   color: var(--secondary-color);
-}
-
-@media (max-width: 900px) {
-  .title {
-    font-size: 2.2rem;
-    margin-bottom: 2rem;
-    padding-bottom: 1.2rem;
-  }
+  text-align: center;
+  margin: 0 auto 3rem;
 }
 
 @media (max-width: 600px) {
   .mainInner {
     padding: 120px 30px;
-  }
-
-  .title {
-    font-size: 1.8rem;
   }
 }
 
