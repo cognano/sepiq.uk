@@ -1,3 +1,43 @@
+/* Notion content can be arbitrarily wide (tables with many columns, long code
+   lines, KaTeX equations). Keep it inside the page column and let each block
+   scroll on its own axis instead of stretching the layout. */
+.blocks {
+  width: 100%;
+  min-width: 0;
+}
+
+.blocks :global(.rotion-table),
+.blocks :global(.rotion-code),
+.blocks :global(.rotion-code-area),
+.blocks :global(.rotion-equation) {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+/* rotion sets 1.7rem on block equations, which towers over the body text. */
+.blocks :global(.rotion-equation-html) {
+  font-size: 1.35rem;
+}
+
+/* rotion ships `display: block` on inline equations, which breaks them onto
+   their own line in the middle of a sentence. */
+.blocks :global(.rotion-richtext-equation) {
+  display: inline-block;
+  max-width: 100%;
+  vertical-align: baseline;
+}
+
+/* Cells otherwise squeeze to a few characters before the table starts to
+   scroll; give them a floor and let the wrapper scroll instead. */
+.blocks :global(.rotion-table-area) {
+  min-width: max-content;
+}
+
+.blocks :global(.rotion-table-td),
+.blocks :global(.rotion-table-td-header) {
+  min-width: 6rem;
+}
+
 .blocks :global(h2) {
   font-size: 2.4rem;
   padding-bottom: 1rem;
@@ -8,6 +48,14 @@
   width: 200%;
   margin: 3rem -50% 0.5rem;
   border-radius: 30px;
+}
+
+/* Opted-in pages keep images inside the text column instead of bleeding
+   wider than it. */
+.blocks.containImages :global(img) {
+  width: 100%;
+  margin-left: 0;
+  margin-right: 0;
 }
 
 @media (max-width: 1400px) {
@@ -27,6 +75,10 @@
 }
 
 @media (max-width: 900px) {
+  .blocks :global(.rotion-equation-html) {
+    font-size: 1.1rem;
+  }
+
   .blocks :global(h2) {
     font-size: 2rem;
     padding-bottom: 0.8rem;

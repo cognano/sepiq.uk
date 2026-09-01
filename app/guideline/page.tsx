@@ -2,8 +2,8 @@ import Blocks from "../components/blocks";
 import { GetContents } from "../lib/contents";
 import styles from "../styles/content.module.css";
 
-export default async function Brand() {
-  const { title, blocks } = await GetContents("brand");
+export default async function Guideline() {
+  const { title, blocks } = await GetContents("guideline");
 
   return (
     <div className={styles.main}>
